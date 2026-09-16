@@ -26,3 +26,5 @@ coverage/
 test-results/
 ml_models_persist/
 .tmp_test/
+.vercel
+.env*
