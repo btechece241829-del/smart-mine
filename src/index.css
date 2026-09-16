@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #0C0605;
+    color: #E2E8F0;
+  }
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #120B09;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2F201C;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9E5839;
+}
+
+/* Leaflet Dark Theme Adjustments */
+.leaflet-container {
+  background-color: #0C0605 !important;
+  font-family: inherit;
+}
+
+.leaflet-tile {
+  filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7) !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background-color: #17100E !important;
+  color: #F6DAC8 !important;
+  border: 1px solid rgba(212, 180, 163, 0.2) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8) !important;
+}
+
+.leaflet-popup-tip {
+  background-color: #17100E !important;
+}
+
+/* Risk pulse animation for Leaflet CircleMarker */
+@keyframes riskPulse {
+  0%   { opacity: 0.35; }
+  50%  { opacity: 0.7;  }
+  100% { opacity: 0.35; }
+}
+.risk-pulse {
+  animation: riskPulse 2s ease-in-out infinite;
+}
+
+/* Pulse keyframes for signal detection */
+@keyframes criticalPulse {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+  70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+.animate-critical-pulse {
+  animation: criticalPulse 2s infinite;
+}
+
+@keyframes copperGlow {
+  0% { border-color: rgba(158, 88, 57, 0.3); }
+  50% { border-color: rgba(158, 88, 57, 0.8); }
+  100% { border-color: rgba(158, 88, 57, 0.3); }
+}
+
+.animate-copper-glow {
+  animation: copperGlow 3s infinite ease-in-out;
+}

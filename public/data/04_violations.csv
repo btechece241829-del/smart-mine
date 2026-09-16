@@ -1,0 +1,51 @@
+﻿violation_id,mine_id,inspection_id,violation_type,description,severity,zone,latitude,longitude,reported_at,responsible_department,status,recurrence_flag,repeat_count_90d,data_source
+VIO-00001,M001,INSP-00004,Blasting control deficiency,Exclusion/signage/control deficiency identified,HIGH,Panel-2,22.35595,82.693947,2026-08-22T14:00:00,Safety,OPEN,NO,1,MOBILE_APP_DEMO
+VIO-00002,M001,INSP-00005,Blasting control deficiency,Exclusion/signage/control deficiency identified,LOW,Coal Face,22.341937,82.691522,2026-08-03T09:15:00,Safety,CLOSED,NO,1,MOBILE_APP_DEMO
+VIO-00003,M001,INSP-00010,Unsafe condition,Unsafe work condition requires corrective action,MEDIUM,Coal Face,22.357222,82.68546,2026-08-12T12:45:00,Safety,IN_PROGRESS,NO,1,MOBILE_APP_DEMO
+VIO-00004,M001,INSP-00012,Electrical safety deficiency,Electrical guarding/housekeeping deficiency,MEDIUM,Panel-1,22.360784,82.676704,2026-06-14T12:30:00,Electrical,IN_PROGRESS,NO,1,MOBILE_APP_DEMO
+VIO-00005,M001,INSP-00014,Statutory evidence missing,Required record/evidence unavailable,MEDIUM,Workshop,22.354076,82.690376,2026-08-03T19:15:00,Compliance,OPEN,NO,1,MOBILE_APP_DEMO
+VIO-00006,M001,INSP-00018,Haul-road safety deficiency,Safety berm/road condition requires correction,MEDIUM,Water Station,22.361366,82.682499,2026-07-07T14:30:00,Operations,OPEN,NO,1,MOBILE_APP_DEMO
+VIO-00007,M001,INSP-00018,Haul-road safety deficiency,Safety berm/road condition requires correction,MEDIUM,Water Station,22.361366,82.682499,2026-07-07T14:30:00,Operations,OPEN,NO,1,MOBILE_APP_DEMO
+VIO-00008,M002,INSP-00020,Underground electrical deficiency,Electrical cable/protection issue requires correction,LOW,East Pit,23.747997,86.423095,2026-07-27T19:45:00,Electrical,IN_PROGRESS,YES,7,MOBILE_APP_DEMO
+VIO-00009,M002,INSP-00021,Contractor compliance failure,PPE/training/documentation non-compliance observed,CRITICAL,Panel-1,23.754096,86.419753,2026-08-19T09:45:00,Contractor Management,CLOSED,NO,1,MOBILE_APP_DEMO
+VIO-00010,M002,INSP-00027,Electrical safety deficiency,Electrical guarding/housekeeping deficiency,HIGH,Panel-2,23.756919,86.414027,2026-08-03T09:15:00,Electrical,OPEN,YES,6,MOBILE_APP_DEMO
+VIO-00011,M002,INSP-00029,Unsafe condition,Unsafe work condition requires corrective action,LOW,West Dump,23.763633,86.432308,2026-08-12T10:45:00,Safety,OPEN,NO,1,MOBILE_APP_DEMO
+VIO-00012,M002,INSP-00030,Electrical safety deficiency,Electrical guarding/housekeeping deficiency,MEDIUM,Panel-2,23.766646,86.421485,2026-07-01T18:15:00,Electrical,IN_PROGRESS,NO,1,MOBILE_APP_DEMO
+VIO-00013,M002,INSP-00034,Unsafe condition,Unsafe work condition requires corrective action,MEDIUM,East Pit,23.74378,86.42568,2026-06-28T18:15:00,Safety,CLOSED,NO,1,MOBILE_APP_DEMO
+VIO-00014,M002,INSP-00035,Electrical safety deficiency,Electrical guarding/housekeeping deficiency,MEDIUM,West Dump,23.756624,86.434505,2026-08-18T12:15:00,Electrical,OPEN,NO,1,MOBILE_APP_DEMO
+VIO-00015,M003,INSP-00042,Contractor compliance failure,PPE/training/documentation non-compliance observed,HIGH,Panel-2,20.942076,85.16566,2026-08-19T19:15:00,Contractor Management,OPEN,NO,1,MOBILE_APP_DEMO
+VIO-00016,M003,INSP-00042,Contractor compliance failure,PPE/training/documentation non-compliance observed,HIGH,Panel-2,20.942076,85.16566,2026-08-19T19:15:00,Contractor Management,IN_PROGRESS,NO,1,MOBILE_APP_DEMO
+VIO-00017,M003,INSP-00043,OB dump control deficiency,Dump drainage/edge control requires correction,HIGH,Panel-1,20.943961,85.160378,2026-08-26T13:15:00,Geotechnical,OPEN,YES,3,MOBILE_APP_DEMO
+VIO-00018,M003,INSP-00043,OB dump control deficiency,Dump drainage/edge control requires correction,HIGH,Panel-1,20.943961,85.160378,2026-08-26T13:15:00,Geotechnical,IN_PROGRESS,YES,3,MOBILE_APP_DEMO
+VIO-00019,M003,INSP-00050,Blasting control deficiency,Exclusion/signage/control deficiency identified,LOW,Coal Face,20.946616,85.165622,2026-08-21T15:30:00,Safety,OPEN,NO,1,MOBILE_APP_DEMO
+VIO-00020,M003,INSP-00051,Haul-road safety deficiency,Safety berm/road condition requires correction,CRITICAL,Coal Face,20.953313,85.181534,2026-07-13T16:45:00,Operations,OPEN,NO,1,MOBILE_APP_DEMO
+VIO-00021,M003,INSP-00051,Haul-road safety deficiency,Safety berm/road condition requires correction,CRITICAL,Coal Face,20.953313,85.181534,2026-07-13T16:45:00,Operations,OPEN,NO,1,MOBILE_APP_DEMO
+VIO-00022,M003,INSP-00054,Statutory evidence missing,Required record/evidence unavailable,MEDIUM,Water Station,20.963909,85.16447,2026-06-27T08:30:00,Compliance,OPEN,NO,1,MOBILE_APP_DEMO
+VIO-00023,M003,INSP-00054,Statutory evidence missing,Required record/evidence unavailable,MEDIUM,Water Station,20.963909,85.16447,2026-06-27T08:30:00,Compliance,IN_PROGRESS,NO,1,MOBILE_APP_DEMO
+VIO-00024,M004,INSP-00061,Ventilation deficiency,Airflow/ventilation control deficiency identified,LOW,Haul Road H3,18.744132,79.513622,2026-07-04T13:45:00,Ventilation,OPEN,NO,1,MOBILE_APP_DEMO
+VIO-00025,M004,INSP-00064,Environmental control deviation,Dust/water/environmental control deviation observed,MEDIUM,East Pit,18.721919,79.525383,2026-06-06T19:15:00,Environment,OPEN,NO,1,MOBILE_APP_DEMO
+VIO-00026,M004,INSP-00067,Gas monitoring concern,Abnormal gas trend requires confirmation/action,MEDIUM,Workshop,18.741927,79.527938,2026-06-13T06:30:00,Ventilation,IN_PROGRESS,NO,1,MOBILE_APP_DEMO
+VIO-00027,M004,INSP-00069,Unsafe condition,Unsafe work condition requires corrective action,LOW,Coal Face,18.723821,79.524135,2026-07-02T09:45:00,Safety,OPEN,YES,3,MOBILE_APP_DEMO
+VIO-00028,M005,INSP-00074,Contractor compliance failure,PPE/training/documentation non-compliance observed,MEDIUM,Panel-2,24.172354,82.690382,2026-08-26T11:00:00,Contractor Management,IN_PROGRESS,YES,2,MOBILE_APP_DEMO
+VIO-00029,M005,INSP-00078,Statutory evidence missing,Required record/evidence unavailable,LOW,Water Station,24.166754,82.688985,2026-07-05T09:15:00,Compliance,IN_PROGRESS,NO,1,MOBILE_APP_DEMO
+VIO-00030,M006,INSP-00091,Mechanical safety deficiency,Machine guarding/maintenance deficiency,HIGH,Panel-1,20.013861,79.305351,2026-06-30T09:00:00,Mechanical,CLOSED,NO,1,MOBILE_APP_DEMO
+VIO-00031,M006,INSP-00094,Contractor compliance failure,PPE/training/documentation non-compliance observed,HIGH,West Dump,20.017943,79.312052,2026-06-11T06:45:00,Contractor Management,OPEN,NO,1,MOBILE_APP_DEMO
+VIO-00032,M006,INSP-00095,Blasting control deficiency,Exclusion/signage/control deficiency identified,CRITICAL,Panel-2,20.020503,79.289082,2026-08-08T10:00:00,Safety,IN_PROGRESS,NO,1,MOBILE_APP_DEMO
+VIO-00033,M006,INSP-00105,Contractor compliance failure,PPE/training/documentation non-compliance observed,HIGH,East Pit,20.016981,79.294206,2026-06-22T11:15:00,Contractor Management,OPEN,YES,4,MOBILE_APP_DEMO
+VIO-00034,M006,INSP-00107,OB dump control deficiency,Dump drainage/edge control requires correction,HIGH,West Dump,20.02063,79.299969,2026-06-19T07:00:00,Geotechnical,OPEN,YES,4,MOBILE_APP_DEMO
+VIO-00035,M007,INSP-00109,Underground electrical deficiency,Electrical cable/protection issue requires correction,HIGH,Coal Face,23.632016,87.106214,2026-07-12T11:45:00,Electrical,IN_PROGRESS,NO,1,MOBILE_APP_DEMO
+VIO-00036,M007,INSP-00117,Gas monitoring concern,Abnormal gas trend requires confirmation/action,CRITICAL,East Pit,23.632221,87.112453,2026-08-13T16:00:00,Ventilation,IN_PROGRESS,YES,4,MOBILE_APP_DEMO
+VIO-00037,M007,INSP-00118,Electrical safety deficiency,Electrical guarding/housekeeping deficiency,MEDIUM,Workshop,23.617285,87.110615,2026-07-30T07:15:00,Electrical,OPEN,NO,1,MOBILE_APP_DEMO
+VIO-00038,M007,INSP-00119,Underground electrical deficiency,Electrical cable/protection issue requires correction,MEDIUM,Workshop,23.633212,87.12601,2026-06-06T10:00:00,Electrical,IN_PROGRESS,NO,1,MOBILE_APP_DEMO
+VIO-00039,M007,INSP-00122,Mechanical safety deficiency,Machine guarding/maintenance deficiency,CRITICAL,Panel-2,23.631251,87.130192,2026-07-06T12:15:00,Mechanical,IN_PROGRESS,NO,1,MOBILE_APP_DEMO
+VIO-00040,M008,INSP-00136,Haul-road safety deficiency,Safety berm/road condition requires correction,MEDIUM,Haul Road H3,21.809533,83.928552,2026-06-14T13:15:00,Operations,OPEN,NO,1,MOBILE_APP_DEMO
+VIO-00041,M008,INSP-00144,Blasting control deficiency,Exclusion/signage/control deficiency identified,HIGH,Panel-1,21.816848,83.92191,2026-06-13T19:00:00,Safety,CLOSED,NO,1,MOBILE_APP_DEMO
+VIO-00042,M009,INSP-00152,Statutory evidence missing,Required record/evidence unavailable,LOW,Panel-1,23.299092,82.342568,2026-07-16T12:00:00,Compliance,CLOSED,NO,1,MOBILE_APP_DEMO
+VIO-00043,M010,INSP-00156,Statutory evidence missing,Required record/evidence unavailable,LOW,Coal Face,23.696088,85.996359,2026-07-06T17:00:00,Compliance,IN_PROGRESS,NO,1,MOBILE_APP_DEMO
+VIO-00044,M011,INSP-00165,Roof support deficiency,Roof/strata support condition requires corrective action,CRITICAL,Coal Face,23.303176,81.356857,2026-07-09T20:15:00,Safety,OPEN,NO,1,MOBILE_APP_DEMO
+VIO-00045,M011,INSP-00169,Unsafe condition,Unsafe work condition requires corrective action,MEDIUM,Panel-1,23.286292,81.358128,2026-07-24T12:45:00,Safety,OPEN,YES,3,MOBILE_APP_DEMO
+VIO-00046,M011,INSP-00173,Roof support deficiency,Roof/strata support condition requires corrective action,LOW,Main Incline,23.310384,81.351306,2026-08-08T18:15:00,Safety,OPEN,NO,1,MOBILE_APP_DEMO
+VIO-00047,M011,INSP-00177,Mechanical safety deficiency,Machine guarding/maintenance deficiency,HIGH,Main Incline,23.287821,81.351034,2026-06-13T19:00:00,Mechanical,OPEN,NO,1,MOBILE_APP_DEMO
+VIO-00048,M011,INSP-00177,Mechanical safety deficiency,Machine guarding/maintenance deficiency,HIGH,Main Incline,23.287821,81.351034,2026-06-13T19:00:00,Mechanical,IN_PROGRESS,NO,1,MOBILE_APP_DEMO
+VIO-00049,M012,INSP-00184,Slope instability indicator,Visible crack/displacement indicator requires geotechnical review,MEDIUM,West Dump,23.344801,86.373325,2026-06-08T14:00:00,Geotechnical,IN_PROGRESS,NO,1,MOBILE_APP_DEMO
+VIO-00050,M012,INSP-00184,Slope instability indicator,Visible crack/displacement indicator requires geotechnical review,MEDIUM,West Dump,23.344801,86.373325,2026-06-08T14:00:00,Geotechnical,CLOSED,NO,1,MOBILE_APP_DEMO

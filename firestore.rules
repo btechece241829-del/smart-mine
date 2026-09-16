@@ -1,0 +1,182 @@
+rules_version = '2';
+
+// ────────────────────────────────────────────────────────────────
+// Mine Safety / Inspection Management System — Firestore rules
+// Profile document id == Firebase auth uid (see lib/authContext).
+// Role lookups resolve the authenticated user's profile row.
+// ────────────────────────────────────────────────────────────────
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Role of the currently signed-in user (read from their profile doc)
+    function role() {
+      return get(/databases/$(database)/documents/profiles/$(request.auth.uid)).data.role;
+    }
+
+    function isRole(value) {
+      return isSignedIn() && role() == value;
+    }
+
+    function isAnyRole(values) {
+      return isSignedIn() && role() in values;
+    }
+
+    // Anyone who can conduct/record inspections or manage mine floor work
+    function canInspect() {
+      return isAnyRole(['mining_mate', 'overman', 'safety_officer', 'mine_manager', 'super_admin']);
+    }
+
+    // Safety officers, managers and admins (verify, assess, escalate)
+    function canSafety() {
+      return isAnyRole(['safety_officer', 'mine_manager', 'super_admin']);
+    }
+
+    function isSuperAdmin() {
+      return isRole('super_admin');
+    }
+
+    // ── profiles ──
+    match /profiles/{userId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn();
+      // Users may update only their own profile; Super Admin manages everyone
+      allow update: if request.auth.uid == resource.data.auth_user_id || isSuperAdmin();
+      allow delete: if isSuperAdmin();
+    }
+
+    // ── mines ──
+    match /mines/{id} {
+      allow read: if isSignedIn();
+      allow create, update: if isAnyRole(['mine_manager', 'super_admin']);
+      allow delete: if isSuperAdmin();
+    }
+
+    // ── complaints (worker reports + full workflow) ──
+    match /complaints/{id} {
+      allow read: if isSignedIn();
+      // Any authenticated user (workers included) can report an issue
+      allow create: if isSignedIn();
+      // Workflow updates by staff; reporter may update their own report
+      allow update: if isSignedIn() && (
+        canInspect() || resource.data.reported_by == request.auth.uid
+      );
+      allow delete: if isSuperAdmin();
+    }
+
+    // ── complaint events & comments ──
+    match /complaint_events/{id} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update, delete: if isSuperAdmin();
+    }
+    match /complaint_comments/{id} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update, delete: if isSuperAdmin();
+    }
+
+    // ── complaint categories (safety catalogue; officers/managers/admin manage) ──
+    match /complaint_categories/{id} {
+      allow read: if isSignedIn();
+      allow create, update, delete: if canSafety();
+    }
+
+    // ── complaint evidence rows (create restricted to the uploading user) ──
+    match /complaint_attachments/{id} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && request.resource.data.uploaded_by == request.auth.uid;
+      allow delete: if isSuperAdmin() || canSafety();
+    }
+
+    // ── complaint investigations (conducted by field staff & officers) ──
+    match /complaint_investigations/{id} {
+      allow read: if isSignedIn();
+      allow create, update: if canInspect();
+      allow delete: if isSuperAdmin();
+    }
+
+    // ── complaint verifications (officers only record decisions) ──
+    match /complaint_verifications/{id} {
+      allow read: if isSignedIn();
+      allow create: if canSafety();
+      allow update, delete: if isSuperAdmin();
+    }
+
+    // ── complaint status history (append-only timeline written by reporter & staff) ──
+    match /complaint_status_history/{id} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update, delete: if isSuperAdmin();
+    }
+
+    // ── inspections ──
+    match /inspections/{id} {
+      allow read: if isSignedIn();
+      allow create, update: if canInspect();
+      allow delete: if isSuperAdmin();
+    }
+
+    // ── corrective actions (created with inspections, transitioned by staff) ──
+    match /corrective_actions/{id} {
+      allow read: if isSignedIn();
+      allow create, update: if canInspect();
+      allow delete: if isSuperAdmin();
+    }
+
+    // ── risk assessments ──
+    match /risk_assessments/{id} {
+      allow read: if isSignedIn();
+      allow create, update: if canSafety();
+      allow delete: if isSuperAdmin();
+    }
+
+    // ── notifications (users only see / update their own) ──
+    match /notifications/{id} {
+      allow read: if isSignedIn() && (
+        resource.data.user_id == request.auth.uid || isSuperAdmin()
+      );
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && (
+        resource.data.user_id == request.auth.uid || isSuperAdmin()
+      );
+      allow delete: if isSuperAdmin();
+    }
+
+    // ── audit logs (written by the app; managers/admins audit) ──
+    match /audit_logs/{id} {
+      allow read: if isAnyRole(['mine_manager', 'super_admin']);
+      allow create: if isSignedIn();   // logAudit() is called from client flows
+      allow update, delete: if isSuperAdmin();
+    }
+
+    // ── escalation rules (Super Admin configures) ──
+    match /escalation_rules/{id} {
+      allow read: if isSignedIn();
+      allow write: if isSuperAdmin();
+    }
+
+    // ── system settings ──
+    match /system_settings/{id} {
+      allow read: if isSignedIn();
+      allow write: if isSuperAdmin();
+    }
+
+    // ── attendance records (field officers write, Super Admin corrects) ──
+    match /attendance_records/{id} {
+      allow read: if isSignedIn();
+      allow create, update: if canInspect();
+      allow delete: if isSuperAdmin();
+    }
+
+    // ── risk alerts (GIS broadcasts by managers/admins) ──
+    match /risk_alerts/{id} {
+      allow read: if isSignedIn();
+      allow create, update: if isAnyRole(['mine_manager', 'super_admin']);
+      allow delete: if isSuperAdmin();
+    }
+  }
+}

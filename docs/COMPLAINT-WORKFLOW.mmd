@@ -1,0 +1,79 @@
+%% =====================================================================
+%%  Smart Mine — Complaint Lifecycle Workflow (state machine)
+%%  ---------------------------------------------------------------------
+%%  Faithful model of the complaint status state machine:
+%%    • States & transitions  → src/security/lib/complaintModule.ts
+%%        WORKFLOW_LIFECYCLE (line 125) + ALLOWED_TRANSITIONS (line 138)
+%%    • Role gating per transition → src/security/components/safety/
+%%        ComplaintDetailPage.tsx  canPerformTransition (line 52)
+%%
+%%  Edge labels use role tokens defined in the legend below.
+%%
+%%  View rendered online: https://mermaid.live/
+%%  Or in VS Code via the "Markdown Preview Mermaid Support" extension.
+%% =====================================================================
+
+stateDiagram-v2
+    direction LR
+
+    %% ── Define multi-word states with aliases ───────────────────────
+    state "Under Investigation" as UI
+    state "Action Assigned" as AA
+    state "Action In Progress" as AIP
+    state "Inspection Required" as IR
+    state "Under Review" as UR
+    state legacy {
+        UR --> Assigned
+        UR --> Escalated
+        Assigned --> AIP
+        Assigned --> IR
+        IR --> AIP
+        Verified --> Closed
+    }
+
+    %% ── Entry / terminal nodes ─────────────────────────────────────
+    [*] --> Draft: reporter creates
+    Draft --> Submitted: submit (owner)
+
+    %% ── Core happy-path lifecycle ──────────────────────────────────
+    Submitted --> Acknowledged: OFF
+    Acknowledged --> UI: OFF+M
+    UI --> AA: assign action (programmatic)
+    AA --> AIP: OFF+M
+    AIP --> Verification: OFF+M
+    Verification --> Resolved: VER
+    Resolved --> Closed: VER
+    Closed --> [*]
+
+    %% ── Rejection & re-submission ──────────────────────────────────
+    Submitted --> Rejected: VER
+    Rejected --> Submitted: resubmit (owner)
+
+    %% ── Escalation branches ────────────────────────────────────────
+    Submitted --> Escalated: OFF
+    Acknowledged --> Escalated: OFF
+    AIP --> Escalated: OFF
+    Escalated --> Acknowledged: OFF
+    Escalated --> UI: OFF+M
+    Escalated --> AIP: OFF+M
+
+    %% ── Rework / regression loops ──────────────────────────────────
+    Verification --> AIP: rework (OFF+M)
+    Resolved --> AIP: re-open (OFF+M)
+
+    %% ── Legend + legacy note ───────────────────────────────────────
+    note right of UI
+      Role tokens (canPerformTransition)
+      OFF = safety_officer · mine_manager · super_admin · overman
+      +M  = also mining_mate
+      VER = safety_officer · mine_manager · super_admin
+      owner = the reporting user
+
+      The "legacy" box holds statuses preserved for older records
+      (types.ts line 134); they funnel back into the core lifecycle.
+    end note
+
+    %% ── Style the terminal + branch states ─────────────────────────
+    style Closed fill:#16a34a,stroke:#052e16,color:#ffffff,stroke-width:2px
+    style Rejected fill:#e11d48,stroke:#4c0519,color:#ffffff,stroke-width:2px
+    style Escalated fill:#f59e0b,stroke:#451a03,color:#1f2937,stroke-width:2px

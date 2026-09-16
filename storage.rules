@@ -1,0 +1,50 @@
+rules_version = '2';
+
+// ────────────────────────────────────────────────────────────────
+// Mine Safety / Inspection Management System — Storage rules
+// One default Storage bucket; app uploads are namespaced by logical
+// "bucket" prefixes, then by the owning user's auth uid:
+//   complaints-photos/{uid}/…   complaints-videos/{uid}/…
+//   inspection-evidence/{uid}/…
+// ────────────────────────────────────────────────────────────────
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isSuperAdmin() {
+      return isSignedIn() && firestore.get(
+        /databases/(default)/documents/profiles/$(request.auth.uid)
+      ).data.role == 'super_admin';
+    }
+
+    // Complaint photo / video evidence — reporter uploads under their own uid
+    match /complaints-photos/{userId}/{fileName} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && userId == request.auth.uid || isSuperAdmin();
+    }
+    match /complaints-videos/{userId}/{fileName} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && userId == request.auth.uid || isSuperAdmin();
+    }
+
+    // Complaint attachments (safety module unified evidence) — uploader under own uid
+    match /complaints-attachments/{userId}/{fileName} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && userId == request.auth.uid || isSuperAdmin();
+    }
+
+    // Inspection evidence — inspector uploads under their own uid
+    match /inspection-evidence/{userId}/{fileName} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && userId == request.auth.uid || isSuperAdmin();
+    }
+
+    // Deny everything else
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

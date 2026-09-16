@@ -1,0 +1,79 @@
+%% =====================================================================
+%%  Smart Mine — Hybrid Blockchain Trust Layer — Architecture Diagram
+%%  ---------------------------------------------------------------------
+%%  Data lives in Firebase (Firestore) — hashes are anchored on-chain.
+%%  When no contract addresses are present the layer runs in SIMULATION
+%%  MODE and every "blockchain" step is served by a local mock so the
+%%  whole app still works with no chain/keys.
+%%
+%%  View rendered online: https://mermaid.live/
+%%  Or in VS Code via the "Markdown Preview Mermaid Support" extension
+%%  (open this .mmd file and preview, or embed it in ARCHITECTURE.md).
+%% =====================================================================
+
+flowchart TB
+    subgraph UI["REACT SECURITY APP  (src/security)"]
+        direction TB
+        R["<b>Record Forms</b><br/>attendance · inspection<br/>complaint · document · compliance<br/>src/security/lib/*Module.ts"]
+        BC_UI["<b>Blockchain UI Pages</b><br/>Dashboard · Verify · QR · Audit Explorer<br/>src/security/components/blockchain/"]
+        VERIFY_UI["<b>Verify / QR Pages</b><br/>BlockchainVerifyPage.tsx<br/>BlockchainQrPage.tsx"]
+    end
+
+    subgraph BL["BLOCKCHAIN MODULE  (src/blockchain)"]
+        direction TB
+        HASH["<b>hash.ts</b><br/>canonicalStringify → SHA-256<br/>computeRecordHash · toBytes32"]
+        TRANS["<b>transaction.ts</b><br/>simulated meta / registration<br/>idempotency guard"]
+        SVC["<b>services/</b> — per-domain anchors<br/>attendance · inspection · complaint<br/>document · compliance · audit"]
+        CTRL["<b>contracts.ts</b><br/>getContract · ABI + address lookup"]
+        CFG["<b>config.ts</b><br/>isSimulationMode · isBlockchainConfigured"]
+        IDX["<b>index.ts / types.ts</b><br/>public API + result types"]
+    end
+
+    subgraph CHAIN["BLOCKCHAIN  (hardhat / testnet / MetaMask)"]
+        direction TB
+        LED["<b>Solidity Ledgers</b> (contracts/)<br/>ComplaintLedger · AttendanceLedger<br/>InspectionLedger · DocumentRegistry<br/>ComplianceLedger · AuditTrail …"]
+        WALLET["Browser wallet signer<br/>(signer.ts)"]
+    end
+
+    subgraph DB["FIREBASE / FIRESTORE"]
+        direction TB
+        FS["<b>Record documents</b><br/>collections in firebaseDb.ts<br/>embedded <code>blockchain</code> meta:<br/>recordHash · txHash · blockNumber · network"]
+    end
+
+    subgraph MONITOR["NETWORK STATUS"]
+        direction LR
+        HOOK["<b>useBlockchainState.ts</b><br/>polls provider status"]
+    end
+
+    %% Anchor-on-create flow
+    R -- "1 · write record doc" --> FS
+    R -- "2 · anchor on create" --> SVC
+    SVC -- "3 · compute canonical hash" --> HASH
+    SVC -- "4a · SIMULATION MODE" --> CFG
+    CFG -- "no .env addresses?" --> SVC
+    SVC -- "4b · real chain" --> CTRL
+    CTRL -- "send tx" --> LED
+    LED --> WALLET
+    SVC -- "5 · write blockchain meta" --> FS
+
+    %% Verify flow
+    VERIFY_UI -- "recompute hash" --> HASH
+    VERIFY_UI -- "read blockchain meta" --> FS
+    VERIFY_UI -- "compare (sim) OR call verify* (chain)" --> SVC
+    SVC -. verify on chain .-> LED
+
+    %% Dashboard
+    BC_UI --> HOOK
+    HOOK --> IDX
+    IDX --> CFG
+    IDX --> CTRL
+    CTRL --> LED
+
+    classDef ui fill:#1f2430,stroke:#e6b46a,color:#f4f1ea,stroke-width:2px;
+    classDef bl fill:#123,stroke:#6ab0e6,color:#eaf2fb,stroke-width:2px;
+    classDef chain fill:#2a1f14,stroke:#e6a86a,color:#fdf0e3,stroke-width:2px;
+    classDef db fill:#14261a,stroke:#7fd19a,color:#eafaf0,stroke-width:2px;
+    class R,BC_UI,VERIFY_UI ui;
+    class HASH,TRANS,SVC,CTRL,CFG,IDX bl;
+    class LED,WALLET chain;
+    class FS db;
