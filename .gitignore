@@ -11,6 +11,7 @@ tsc*.txt
 # Secrets — never commit
 .env
 .env.*
+!.env.example
 
 # Python
 __pycache__/

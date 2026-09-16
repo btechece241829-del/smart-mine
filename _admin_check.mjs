@@ -10,8 +10,13 @@ function get(k) {
 const url = get('VITE_SUPABASE_URL');
 const secret = get('SUPABASE_SECRET_KEY');
 
-const email = 'arjunanpradip8@gmail.com';
-const password = '12345678';
+// Credentials come from .env — never hardcode real accounts: this repo is public
+const email = get('VITE_TEST_EMAIL');
+const password = get('VITE_TEST_PASSWORD');
+if (!email || !password) {
+  console.log('Set VITE_TEST_EMAIL and VITE_TEST_PASSWORD in .env (this repo is public, do not hardcode credentials).');
+  process.exit(1);
+}
 
 // Use the secret key as the service-role / admin key
 const admin = createClient(url, secret, {
@@ -61,18 +66,18 @@ async function main() {
     });
     if (signInErr) {
       console.log('PASSWORD CHECK FAILED:', signInErr.message);
-      console.log('Resetting password to 12345678...');
+      console.log('Resetting password to ' + password + '...');
       const { error: rerr } = await admin.auth.admin.updateUserById(u.id, { password });
       if (rerr) {
         console.log('RESET ERROR:', rerr.message);
       } else {
-        console.log('PASSWORD RESET OK to 12345678');
+        console.log('PASSWORD RESET OK to ' + password);
         // Re-test after reset
         const { error: e2 } = await anon.auth.signInWithPassword({ email, password });
         console.log('RETEST after reset:', e2 ? 'FAIL: ' + e2.message : 'SUCCESS');
       }
     } else {
-      console.log('PASSWORD CHECK: SUCCESS (12345678 works)');
+      console.log('PASSWORD CHECK: SUCCESS (' + password + ' works)');
     }
   } catch (e) {
     console.log('FATAL:', e.message);
