@@ -4,8 +4,13 @@ import { chromium } from 'playwright';
 
 const BASE = 'http://localhost:3000/';
 const ML = 'http://localhost:5001';
-const EMAIL = 'arjunanpradip8@gmail.com';
-const PASSWORD = '12345678';
+// Credentials come from env vars — never hardcode: this repo is public
+const EMAIL = process.env.VITE_TEST_EMAIL || '';
+const PASSWORD = process.env.VITE_TEST_PASSWORD || '';
+if (!EMAIL || !PASSWORD) {
+  console.log('Set VITE_TEST_EMAIL / VITE_TEST_PASSWORD in .env to run this probe.');
+  process.exit(1);
+}
 
 const browser = await chromium.launch({
   channel: 'chrome',
