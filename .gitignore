@@ -26,5 +26,6 @@ coverage/
 test-results/
 ml_models_persist/
 .tmp_test/
+
+# Vercel local artifacts (added by `vercel link`)
 .vercel
-.env*
